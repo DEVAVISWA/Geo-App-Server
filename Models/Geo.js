@@ -1,3 +1,4 @@
+//to handle GeoJSON file
 const { default: mongoose } = require("mongoose");
 
 const locationSchema = new mongoose.Schema({

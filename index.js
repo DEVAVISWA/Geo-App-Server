@@ -4,6 +4,8 @@ const cors = require("cors");
 const { MONGODB_URL, PORT } = require("./Utils/config");
 const bodyParser= require('body-parser');
 const router = require("./Controllers/users");
+const path= require('path');
+const uploadRouter = require("./Controllers/uploads");
 
 const app = express();
 
@@ -14,6 +16,9 @@ app.get("/", (req, res) => {
   res.send("<h1>Geo Data App Server</h1>");
 });
 app.use('/api/users',router)
+
+app.use('/uploads', express.static(path.join(__dirname,'uploads')))
+app.use('/api', uploadRouter)
 
 mongoose.set("strictQuery", false);
 mongoose

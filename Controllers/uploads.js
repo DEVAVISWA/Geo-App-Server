@@ -1,10 +1,24 @@
+//handling route to upload file
+
 const express = require('express');
 const upload = require('../Middleware/upload');
-const router = express.Router();
+const File = require('../Models/File');
+const uploadRouter = express.Router();
 
-router.post('/upload', upload.single('file'), (req, res) => {
-  // Handle file processing and saving to database
-  res.send('File uploaded successfully');
+uploadRouter.post('/upload', upload.single('recfile'), async (req, res) => {
+  try {
+    const file = new File({
+      filename: req.file.filename,
+      path: req.file.path,
+      size: req.file.size
+    });
+
+    await file.save();
+    res.send('File uploaded and saved to database successfully');
+  } catch (err) {
+    res.status(500).send('Error uploading file');
+  }
 });
 
-module.exports = router;
+module.exports = uploadRouter;
+            
