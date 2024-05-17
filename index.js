@@ -17,7 +17,9 @@ app.get("/", (req, res) => {
 });
 app.use('/api/users',router)
 
-app.use('/uploads', express.static(path.join(__dirname,'uploads')))
+// app.use('/uploads', express.static(path.join(__dirname,'uploads')))
+// app.use('/api', uploadRouter)
+
 app.use('/api', uploadRouter)
 
 mongoose.set("strictQuery", false);
