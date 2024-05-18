@@ -20,43 +20,8 @@ app.use('/api/users',router)
 // app.use('/uploads', express.static(path.join(__dirname,'uploads')))
 // app.use('/api', uploadRouter)
 
-// app.use('/api', uploadRouter)
-
-const multer= require('multer');
-const Geojson = require("./Models/File");
-const upload= multer({dest:'uploadedFile/'})
-const fs= require('fs')
-
-app.post('/api/upload', upload.single('file'),(req,res)=>{
-  
-  if(!req.file) {
-    return res.status(400).send('no file uploaded')
-  }
-  fs.readFile(req.file.path, 'utf-8', async (err,data)=>{
-    if(err){
-      return res.status(500).send('err reading file')
-    }
-    try {
-      const geoJsonData= JSON.parse(data)
-      // if(geoJsonData.type !=='FeatureCollection' || Array.isArray(geoJsonData.features)) {
-      //   return res.status(400).send('invalid GeoJson Format')
-      // }
-      const geojson= new Geojson(geoJsonData)
-      await geojson.save()
-
-      fs.unlink(req.file.path , (err)=>{
-        if(err){
-          console.log('Err deleting file', err)
-        }
-      })
-      res.send('file uploaded and saved to DB')
-    } catch (error) {
-      res.status(500).send('err uploading file')
-    }
-  })
-
-  // res.send('successfull')
-})
+//router to upload geojson
+app.use('/api', uploadRouter)
 
 mongoose.set("strictQuery", false);
 mongoose

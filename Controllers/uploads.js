@@ -21,7 +21,6 @@ uploadRouter.post('/upload', upload.single('file'), async (req, res) => {
   //   res.status(500).send('Error uploading file');
   // }
 
-
   if(!req.file) {
     return res.status(400).send('no file uploaded')
   }
@@ -31,9 +30,9 @@ uploadRouter.post('/upload', upload.single('file'), async (req, res) => {
     }
     try {
       const geoJsonData= JSON.parse(data)
-      if(geoJsonData.type !=='FeatureCollection' || Array.isArray(geoJsonData.features)) {
-        return res.status(400).send('invalid GeoJson Format')
-      }
+      // if(geoJsonData.type !=='FeatureCollection' || Array.isArray(geoJsonData.features)) {
+      //   return res.status(400).send('invalid GeoJson Format')
+      // }
       const geojson= new Geojson(geoJsonData)
       await geojson.save()
 
